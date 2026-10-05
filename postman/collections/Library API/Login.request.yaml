@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{baseUrl}}/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "username": "testuser",
+      "password": "password123"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      const data = pm.response.json();
+      if (data.token) {
+          pm.environment.set('token', data.token);
+          console.log('Token saved to {{token}}');
+      } else {
+          console.warn('Login response had no token:', data);
+      }
+    language: text/javascript
+order: 2000

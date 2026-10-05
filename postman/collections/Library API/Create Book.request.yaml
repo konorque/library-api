@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/books"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "Dune",
+      "author": "Frank Herbert"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      const data = pm.response.json();
+      if (data._id) {
+          pm.environment.set('bookId', data._id);
+          console.log('bookId saved:', data._id);
+      }
+    language: text/javascript
+order: 5000

@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{baseUrl}}/books/{{bookId}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "Dune Messiah",
+      "author": "Frank Herbert"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 6000
