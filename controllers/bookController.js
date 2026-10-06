@@ -20,18 +20,18 @@ async function createBook(req, res) {
         res.status(201).json(newBook);
 }
 
-async function deleteBook (req, res) {
-        const deleted = await Book.findByIdAndDelete(req.params.id);
-        if(!deleted)
-            return res.status(404).json({ error: 'Not found' });
-        res.status(200).json({success: 'Object deleted successfully'})
-}
+// async function deleteBook (req, res) {
+//         const deleted = await Book.findByIdAndDelete(req.params.id);
+//         if(!deleted)
+//             return res.status(404).json({ error: 'Not found' });
+//         res.status(200).json({success: 'Object deleted successfully'})
+// }
 
-async function updateBook (req, res) {
-        const updated = await Book.findByIdAndUpdate(req.params.id, { title: req.body.title, author: req.body.author }, { new: true, runValidators: true });
-        if(!updated)
-            return res.status(404).json({ error: 'Not found' });
-        res.status(200).json(updated);
-}
+// async function updateBook (req, res) {
+//         const updated = await Book.findByIdAndUpdate(req.params.id, { title: req.body.title, author: req.body.author }, { new: true, runValidators: true });
+//         if(!updated)
+//             return res.status(404).json({ error: 'Not found' });
+//         res.status(200).json(updated);
+// }
 
-module.exports = {getAllBooks, getBookById, createBook, deleteBook, updateBook};
+module.exports = {getAllBooks, getBookById, createBook};// deleteBook, updateBook

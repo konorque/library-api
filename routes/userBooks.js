@@ -5,5 +5,6 @@ const controller = require('../controllers/userBooksController');
 
 router.get('/books', auth, controller.getMyBooks);
 router.post('/books/:bookId', auth, controller.addBook);
+router.delete('/books/:bookId', auth, controller.removeBook);
 
 module.exports = router;

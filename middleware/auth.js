@@ -1,16 +1,17 @@
 const jwt = require('jsonwebtoken');
+const httpError = require('../utils/httpError');
 
 function auth(req, res, next) {
     let authHeader = req.headers.authorization;
     if(!authHeader)
-        return res.status(401).json('Not authorizated');
+        throw httpError(401, 'Not authenticated');
     const [, token] = authHeader.split(' ');
     try{
         let payload = jwt.verify(token, process.env.JWT_SECRET);
         req.userId = payload.id;
         next();
     } catch (err){
-        res.status(401).json('Error');
+        throw httpError(401, 'Invalid or expired token');
     }
 }
 
