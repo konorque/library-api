@@ -1,4 +1,5 @@
 const Book = require('../models/Book');
+const httpError = require('../utils/httpError');
 
 async function getAllBooks (req, res) {
         const books = await Book.find();
@@ -8,13 +9,13 @@ async function getAllBooks (req, res) {
 async function getBookById (req, res) {
         const book = await Book.findById(req.params.id);
         if (!book)
-            return res.status(404).json({ error: 'Not found' });
+            throw httpError(404, 'Not found');
         res.json(book);
 }
 
 async function createBook(req, res) {
         if (!req.body.title || !req.body.author)
-            return res.status(400).json({ error: 'Fields are empty' });
+            throw httpError(400, 'Fields are empty');
 
         const newBook = await Book.create({ title: req.body.title, author: req.body.author });
         res.status(201).json(newBook);
