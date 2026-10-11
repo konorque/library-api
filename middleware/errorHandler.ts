@@ -1,4 +1,8 @@
-function errorHandler(err, req, res, next) {
+import type { Request, Response, NextFunction } from 'express';
+
+interface AppError extends Error { status?: number; code?: number }
+
+function errorHandler(err:AppError, req:Request, res:Response, next:NextFunction) {
     if(err.name === 'ValidationError' || err.name === 'CastError')
         res.status(400).json({ error: err.message });
     else if(err.status)
