@@ -6,4 +6,4 @@ function httpError (status:number, message:string):HttpError{
     return err;
 }
 
-module.exports = httpError;
+export = httpError;
