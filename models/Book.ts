@@ -1,8 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const bookSchema = new mongoose.Schema({
+interface IBook {title:string, author:string};
+
+const bookSchema = new mongoose.Schema<IBook>({
     title: { type: String, required: true, trim: true, minlength: [2, 'Too short book name'] },
     author: { type: String, required: true, trim: true, minlength: [2, 'Too short author name']  }
 });
 
-module.exports = mongoose.model('Book', bookSchema);
+module.exports = mongoose.model<IBook>('Book', bookSchema);
