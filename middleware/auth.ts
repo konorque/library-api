@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
 import httpError from '../utils/httpError';
 import type { Request, Response, NextFunction } from 'express';
-
-interface AuthRequest extends Request { userId?: string }
+import type { AuthRequest } from '../types/authRequest';
 
 function auth(req:AuthRequest, res:Response, next:NextFunction) {
     const authHeader = req.headers.authorization;

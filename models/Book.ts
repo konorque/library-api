@@ -7,4 +7,4 @@ const bookSchema = new mongoose.Schema<IBook>({
     author: { type: String, required: true, trim: true, minlength: [2, 'Too short author name']  }
 });
 
-module.exports = mongoose.model<IBook>('Book', bookSchema);
+export = mongoose.model<IBook>('Book', bookSchema);

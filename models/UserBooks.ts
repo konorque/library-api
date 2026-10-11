@@ -9,4 +9,4 @@ const userBooksSchema = new mongoose.Schema<IUserBooks>({
 
 userBooksSchema.index({user: 1, book: 1}, {unique: true});
 
-module.exports = mongoose.model<IUserBooks>('UserBooks', userBooksSchema);
+export = mongoose.model<IUserBooks>('UserBooks', userBooksSchema);
