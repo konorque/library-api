@@ -1,12 +1,12 @@
-const express = require('express');
-const errorHandler = require('./middleware/errorHandler');
-const booksRouter = require ('./routes/books');
-const authRouter = require ('./routes/auth');
-const userBooksRouter = require ('./routes/userBooks');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const cors = require('cors');
-const rateLimit = require('express-rate-limit');
+import express from 'express';
+import errorHandler from './middleware/errorHandler';
+import booksRouter from './routes/books';
+import authRouter from './routes/auth';
+import userBooksRouter from './routes/userBooks';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 
 const app = express();
 
@@ -38,4 +38,4 @@ app.use('/', authRouter);
 app.use('/me', userBooksRouter);
 app.use(errorHandler);
 
-module.exports = app;
+export = app;
