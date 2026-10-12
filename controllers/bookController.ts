@@ -22,4 +22,4 @@ async function createBook(req:Request, res:Response) {
         res.status(201).json(newBook);
 }
 
-module.exports = {getAllBooks, getBookById, createBook};
+export = {getAllBooks, getBookById, createBook};

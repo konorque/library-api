@@ -32,4 +32,4 @@ async function login(req:Request, res:Response){
     res.json({token: token});
 }
 
-module.exports = {register, login};
+export = {register, login};

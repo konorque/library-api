@@ -14,4 +14,4 @@ function errorHandler(err:AppError, req:Request, res:Response, next:NextFunction
 
 }
 
-module.exports = errorHandler;
+export = errorHandler;

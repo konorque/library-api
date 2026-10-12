@@ -1,10 +1,11 @@
-const express = require('express');
-const auth = require('../middleware/auth');
+import express from 'express';
+import auth from '../middleware/auth';
+import controller from'../controllers/userBooksController';
+
 const router = express.Router();
-const controller = require('../controllers/userBooksController');
 
 router.get('/books', auth, controller.getMyBooks);
 router.post('/books/:bookId', auth, controller.addBook);
 router.delete('/books/:bookId', auth, controller.removeBook);
 
-module.exports = router;
+export = router;

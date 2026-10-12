@@ -36,5 +36,4 @@ async function addBook (req:AuthRequest, res:Response){
     res.status(201).json(link);
 }
 
-
-module.exports = {addBook, getMyBooks, removeBook};
+export = {addBook, getMyBooks, removeBook};
