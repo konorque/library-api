@@ -4,11 +4,11 @@ services:
     volumes:
       - mongo-data:/data/db
   app:
-    build: .
+    build: ./backend
     ports:
       - "3000:3000"
     env_file:
-      - .env
+      - ./backend/.env
     environment:
       MONGODB_URI: mongodb://mongo:27017/library
     depends_on:
