@@ -1,8 +1,11 @@
 import app from './app';
 import connectDB from'./config/db';
 
-connectDB();
+async function start(): Promise<void> {
+    await connectDB();
+    app.listen(3000, ()=>{
+        console.log("Hosted on http://localhost:3000");
+    });
+}
 
-app.listen(3000, ()=>{
-    console.log("Hosted on http://localhost:3000");
-})
+start();

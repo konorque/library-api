@@ -9,8 +9,10 @@ function errorHandler(err:AppError, req:Request, res:Response, next:NextFunction
         res.status(err.status).json({error: err.message});
     else if(err.code === 11000)
         res.status(409).json({error: 'Data already exist'})
-    else
-        res.status(500).json({ error: err.message });
+    else {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 
 }
 

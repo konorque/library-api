@@ -1,7 +1,7 @@
 import Book from '../models/Book';
 import UserBooks from '../models/UserBooks';
 import httpError from '../utils/httpError';
-import { AuthRequest } from '../types/authRequest'
+import type { AuthRequest } from '../types/authRequest';
 import type { Response } from 'express';
 
 async function getMyBooks(req:AuthRequest, res:Response){
