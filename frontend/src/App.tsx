@@ -1,70 +1,45 @@
-import Book from "./Book.tsx";
-import { useEffect, useState } from "react";
-
-type BookData = {
-  _id: string;
-  title: string;
-  author: string;
-};
+import { useState } from "react";
+import { Navigate, Link, Route, Routes } from "react-router";
+import MyBooks from "./MyBooks.tsx";
+import Login from "./Login.tsx";
+import Library from "./Library.tsx";
 
 function App() {
-  const [books, setBooks] = useState<BookData[]>([]);
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token"),
+  );
 
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-
-  useEffect(() => {
-    async function loadBooks() {
-      const res = await fetch("http://localhost:3000/books");
-      const data = await res.json();
-      setBooks(data);
-    }
-    loadBooks();
-  }, []);
-
-  function addBook() {
-    if (!title.trim() || !author.trim()) return;
-    setBooks([
-      ...books,
-      { _id: String(Date.now()), title: title, author: author },
-    ]);
-    setTitle("");
-    setAuthor("");
+  function handleLogin(newToken: string) {
+    setToken(newToken);
+    localStorage.setItem("token", newToken);
   }
 
-  function deleteBook(bookId: string) {
-    setBooks(books.filter((book) => book._id !== bookId));
+  function handleLogout() {
+    setToken(null);
+    localStorage.removeItem("token");
   }
 
   return (
     <>
       <h1>Моя библиотека</h1>
-      <ul>
-        {books.length === 0 ? (
-          <li>Список книг пуст</li>
-        ) : (
-          books.map((book) => (
-            <Book
-              key={book._id}
-              id={book._id}
-              title={book.title}
-              author={book.author}
-              onDelete={deleteBook}
-            />
-          ))
-        )}
-      </ul>
-      <input
-        value={author}
-        onChange={(event) => setAuthor(event.target.value)}
-        placeholder="Автор книги"
-      />
-      <input
-        value={title}
-        onChange={(event) => setTitle(event.target.value)}
-        placeholder="Название книги"
-      />
-      <button onClick={addBook}>Добавить книгу</button>
+      {token ? (
+        <p>
+          Вы вошли <button onClick={handleLogout}>Выйти</button>
+        </p>
+      ) : (
+        <Login onLogin={handleLogin} />
+      )}
+      <nav>
+        <Link to="/">Каталог</Link>{" "}
+        {token && <Link to="/my-books">Мои книги</Link>}
+      </nav>
+      <Routes>
+        <Route path="/" element={<Library token={token} />} />
+        <Route
+          path="/my-books"
+          element={token ? <MyBooks token={token} /> : <Navigate to="/" />}
+        />
+      </Routes>
     </>
   );
 }
