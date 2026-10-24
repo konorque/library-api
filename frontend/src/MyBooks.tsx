@@ -28,6 +28,15 @@ function MyBooks({ token }: { token: string }) {
     loadMyBooks();
   }, [token]);
 
+  async function deleteBook(bookId: string) {
+    const res = await fetch(`http://localhost:3000/me/books/${bookId}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) return;
+    setLinks(links.filter((link) => link.book._id !== bookId));
+  }
+
   return (
     <>
       <h2>Мои книги</h2>
@@ -41,6 +50,10 @@ function MyBooks({ token }: { token: string }) {
             links.map((link) => (
               <li key={link._id}>
                 {link.book.author} - {link.book.title}
+                <p></p>
+                <button onClick={() => deleteBook(link.book._id)}>
+                  Удалить
+                </button>
               </li>
             ))
           )}
