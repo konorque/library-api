@@ -1,5 +1,6 @@
 import Book from "./Book.tsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type BookData = {
   _id: string;
@@ -8,28 +9,21 @@ type BookData = {
 };
 
 function Library({ token }: { token: string | null }) {
-  const [books, setBooks] = useState<BookData[]>([]);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function loadBooks() {
-      try {
-        const res = await fetch("http://localhost:3000/books");
-        if (!res.ok) throw new Error("Failed to fetch");
-        const data = await res.json();
-        setBooks(data);
-      } catch {
-        setError("Failed to load books");
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadBooks();
-  }, []);
+  const { data, isPending, error } = useQuery<BookData[]>({
+    queryKey: ["library"],
+    queryFn: async () => {
+      const res = await fetch("http://localhost:3000/books");
+      if (!res.ok) throw new Error("Failed to fetch");
+      return await res.json();
+    },
+  });
+
+  const books = data ?? [];
+  const queryClient = useQueryClient();
 
   async function addBook() {
     if (!title.trim() || !author.trim()) return;
@@ -42,17 +36,9 @@ function Library({ token }: { token: string | null }) {
       body: JSON.stringify({ title, author }),
     });
     if (!res.ok) return;
-    const book = await res.json();
-    setBooks([
-      ...books,
-      { _id: book._id, title: book.title, author: book.author },
-    ]);
+    queryClient.invalidateQueries({ queryKey: ["library"] });
     setTitle("");
     setAuthor("");
-  }
-
-  function deleteBook(bookId: string) {
-    setBooks(books.filter((book) => book._id !== bookId));
   }
 
   async function addToMine(bookId: string) {
@@ -64,14 +50,15 @@ function Library({ token }: { token: string | null }) {
     if (res.ok) setMessage("Добавлено");
     else if (res.status === 409) setMessage("Книга уже в вашем списке");
     else setMessage("Не удалось добавить");
+    queryClient.invalidateQueries({ queryKey: ["myBooks"] });
   }
 
   return (
     <>
-      {loading && <p>Загрузка...</p>}
-      {error && <p>{error}</p>}
+      {isPending && <p>Загрузка...</p>}
+      {error && <p>Не удалось загрузить</p>}
       {message && <p>{message}</p>}
-      {!loading && !error && (
+      {!isPending && !error && (
         <ul>
           {books.length === 0 ? (
             <li>Список книг пуст</li>
@@ -82,7 +69,6 @@ function Library({ token }: { token: string | null }) {
                 id={book._id}
                 title={book.title}
                 author={book.author}
-                onDelete={deleteBook}
                 onAddToMine={addToMine}
               />
             ))
