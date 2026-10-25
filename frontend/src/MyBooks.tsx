@@ -1,11 +1,13 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "./AuthContext";
 
 type MyBookLink = {
   _id: string;
   book: { _id: string; title: string; author: string };
 };
 
-function MyBooks({ token }: { token: string }) {
+function MyBooks() {
+  const { token } = useAuth();
   const { data, isPending, error } = useQuery<MyBookLink[]>({
     queryKey: ["myBooks", token],
     queryFn: async () => {

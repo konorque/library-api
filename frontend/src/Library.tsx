@@ -1,6 +1,7 @@
 import Book from "./Book.tsx";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "./AuthContext.tsx";
 
 type BookData = {
   _id: string;
@@ -8,7 +9,8 @@ type BookData = {
   author: string;
 };
 
-function Library({ token }: { token: string | null }) {
+function Library() {
+  const { token } = useAuth();
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [message, setMessage] = useState<string | null>(null);
