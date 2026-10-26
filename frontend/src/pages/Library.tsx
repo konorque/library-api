@@ -1,7 +1,7 @@
-import Book from "./Book.tsx";
+import Book from "../components/Book.tsx";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "./AuthContext.tsx";
+import { useAuth } from "../context/AuthContext.tsx";
 
 type BookData = {
   _id: string;

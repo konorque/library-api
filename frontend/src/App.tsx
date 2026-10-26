@@ -1,8 +1,8 @@
 import { Navigate, Link, Route, Routes } from "react-router";
-import { useAuth } from "./AuthContext.tsx";
-import MyBooks from "./MyBooks.tsx";
-import Login from "./Login.tsx";
-import Library from "./Library.tsx";
+import { useAuth } from "./context/AuthContext.tsx";
+import MyBooks from "./pages/MyBooks.tsx";
+import Login from "./components/Login.tsx";
+import Library from "./pages/Library.tsx";
 
 function App() {
   const { token, login, logout } = useAuth();

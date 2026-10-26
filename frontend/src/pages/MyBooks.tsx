@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 type MyBookLink = {
   _id: string;
